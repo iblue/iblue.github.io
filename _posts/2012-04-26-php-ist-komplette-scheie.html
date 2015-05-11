@@ -1,0 +1,33 @@
+---
+layout: post
+title: PHP ist komplette Scheiße.
+date: 2012-04-26 15:23:00.000000000 +02:00
+categories:
+- Diverses
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _encloseme: '1'
+  blogger_blog: blog.iblue-consulting.de
+  blogger_author: Markus Fenske
+  blogger_permalink: "/2012/04/php-ist-komplette-scheie.html"
+  blogger_internal: "/feeds/470787080942720564/posts/default/1620726870643434521"
+  _thumbnail_id: '177'
+  _edit_last: '1'
+  _wp_old_slug: php-ist-komplette-scheise
+author:
+  login: iblue
+  email: iblue@gmx.net
+  display_name: iblue
+  first_name: ''
+  last_name: ''
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>Gerade fragte mich jemand auf Stack Overflow, nachdem ich PHP gebast habe, ob ich sagen möchte, dass Facebook (910 Mio. User!) einen Fehler dadurch macht, dass sie PHP und C++ als Backend nutzen.</p>
+<div style="clear: both; text-align: center;"><a href="/assets/facepalm.jpg" style="clear:left; float:left;margin-right:1em; margin-bottom:1em"><img border="0" height="160" width="200" src="/assets/facepalm.jpg" /></a></div>
+<p>Ja, verdammt, will ich. PHP ist ein Stück Scheiße. Eine komplett, absolut komplett, verkackte Programmiersprache. Wer geistig gesund ist, sollte nicht PHP programmieren müssen. Nicht nur, dass PHP komplett verbuggt ist (<a href="https://bugs.php.net/">Ich empfehle die PHP Bugdatenbank als Nachtlektüre. Lesen und Lachen.</a>), es hat außerdem keine Designfehler. Es ist einer! Beispiele? Ok. Der <tt>==</tt> Operator ist absolut komplett nutzlos. <tt>"A" == 0</tt> ist true. <tt>"A" == true</tt> auch. Somit müsste auch <tt>0 == true</tt>. Nö. Weit gefehlt.</p>
+<p>Auch das Konzept selber ist Müll. PHP wird üblicherweise zu Bytecode kompiliert. Von einem Modul des Webservers. Bei jedem verdammten Aufruf. Das hat einen ganzen Markt von PHP-Beschleunigern geschaffen, die nichts anderes machen, als diesen Bytecode in einem Cache zu halten. Die Krönung des Kackhaufens ist Facebooks HipHop. Das kompiliert PHP direkt zu C++, das widerum zu nativem Code. Und es baut gleich einen Webserver ein, dem ein Request-String übergeben werden kann. So macht das jedes andere richtige Webframework. Und das muss erst Facebook kommen, um das richtig zu machen?</p>
+<p>Ich habe jetzt keine Lust, die ganzen Probleme von PHP aufzulisten. <a href="http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/">Das hat schon jemand anders gemacht.</a>Es bleibt nur das Fazit: Bitte, Leute, schreibt kein PHP.</p>

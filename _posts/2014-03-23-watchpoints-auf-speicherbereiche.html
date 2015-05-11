@@ -1,0 +1,27 @@
+---
+layout: post
+title: Watchpoints auf Speicherbereiche
+date: 2014-03-23 10:32:44.000000000 +01:00
+categories:
+- Diverses
+tags: []
+status: draft
+type: post
+published: false
+meta:
+  blogger_blog: blog.iblue-consulting.de
+  blogger_author: Markus Fenske
+  blogger_internal: "/feeds/470787080942720564/posts/default/8725039722787924122"
+author:
+  login: iblue
+  email: iblue@gmx.net
+  display_name: iblue
+  first_name: ''
+  last_name: ''
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>Ich bin da letztens auf eine potentielle Sicherheitslücke in einem interessanten System gestoßen, die sich jeden Versuchen widersetzt, sie auszunutzen. Die Lücke führt dazu, dass ich in einem gewissen Speicherbereich ein paar Bytes hinterlassen kann, das wars aber auch schon. Mit dem hinterhältigen Ansinnen im Kopf, mit den Maschinen fremder Menschen groben Unfug zu treiben, begab ich mich also auf eine lange Reise.</p>
+<p>Die Art der Lücke ist folgende: In einem gewissen 32bit x86 elf Linux Binary kann ich im Bereich 0x08040000 bis 0x0804ffff Speicher schreiben. Ich kann außerdem 128 Byte im Stack platzieren. Es wird direkt <tt>exit();</tt> aufgerufen, wenn ich das gemacht habe. Der geneigte Schelm der sich auskennt, weiß, dass das ELF-Dateiformat zwei spezielle Segmente vorsieht. <tt>.ctors</tt> und <tt>.dtors</tt>. Dort stehen zwischen den zwei ganz und garnicht magischen Werten <tt>0x00000000</tt> und <tt>0xffffffff</tt> die Liste der Speicherbereiche, die vor bzw. nach der Funktion <tt>main()</tt> aufgerufen werden. Früher wäre das mein geheimer Spezialtrick gewesen um das System aufzuhacken. <a href="http://unix.stackexchange.com/questions/8062/dtors-looks-writable-but-attempts-to-write-segfault">Glücklicherweise werden die Systeme immer sicherer</a>. Der Linker markiert den Speicher Read-Only. Schreibzugriffe führen zu einem Segmentation Fault und damit zur Notschlachtung des Prozesses. Ich muss mir also neue Tricks ausdenken.</p>
+<p>Es entsteht die Frage: Was zur Hölle kann ich im entsprechenden Bereich manipulieren? Um das zu erforschen, hole ich mir also als erstes den interessanteren Teil des Memory Layout des entsprechenden Programms (<tt>cat /proc/$PID/maps | grep 0804</tt>). Es gibt dort also zwei Speicherseiten, die eine schreibbar und die andere ausführbar. <tt>readelf -a $binary</tt> verrät, dass dort ziemlich viel interessantes Zeug liegt. Auf der Suche nach interessanten Zielen will ich mir das Ganze also mal im <tt>gdb</tt> ansehen. Das Programm soll unterbrochen werden, sobald auf den Speicherbereich zugegriffen wird, aber erst nach dem verwundbaren Code. Ich steppe also vor bis zum Code und will mit <tt>awatch</tt> schnell alle 4096 interessanten Adressen als Watchpoint markieren. Leider geht das nicht, gdb ist in der Hinsicht recht limitiert, in erster Linie dadurch, dass man mit den Debug-Registern nur auf zwei Adressen watchpoints setzen kann.</p>
+<p>Also musste ein Tool her, mit dem ich den Programmfluss irgendwie unterbrechen kann, sobald geschrieben, gelesen oder ausgeführt wird. Also setzte ich mittels der Funktion <tt>mprotect()</tt> die entsprechende Seite auf geschützt. Wenn jetzt etwas darauf zugreift, wird ein Page Fault ausgelöst, der wird durch den Kernel gepustet und löst dann in meinem Code das <tt>SIGSEV</tt> Signal aus. Dann weiß ich, an welcher Adresse der Fault passiert ist, deaktivere den Schutz, führe die Instruktion aus und aktiviere Ihn wieder. Das ist schwieriger als es klingt. Irgendwo im Bereich <tt>0x08049XXX</tt> liegen</p>

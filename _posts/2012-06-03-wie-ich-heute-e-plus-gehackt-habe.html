@@ -1,0 +1,37 @@
+---
+layout: post
+title: Wie ich heute E-Plus gehackt habe.
+date: 2012-06-03 18:14:00.000000000 +02:00
+categories:
+- Diverses
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _encloseme: '1'
+  blogger_blog: blog.iblue-consulting.de
+  blogger_author: Markus Fenske
+  blogger_permalink: "/2012/06/wie-ich-heute-e-plus-gehackt-habe.html"
+  blogger_internal: "/feeds/470787080942720564/posts/default/3931174218087556813"
+  _thumbnail_id: '165'
+author:
+  login: iblue
+  email: iblue@gmx.net
+  display_name: iblue
+  first_name: ''
+  last_name: ''
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<div style="clear: both; text-align: center;"><a href="/assets/Hacker.jpg" style="clear:left; float:left;margin-right:1em; margin-bottom:1em"><img border="0" height="229" width="320" src="/assets/Hacker.jpg" /></a></div>
+<p>Eine E-Mail ist ein unverschlüsseltes Medium. Mails, die von einem Server zum nächsten durchgereicht werden, können unterwegs problemlos von jedem gelesen werden. Das Sicherheitsniveau ist in etwa wie bei einer Postkarte. Auch der Absender und Empfänger können nach belieben eingetragen werden. Diese Erkenntnis ist mittlerweile auch bei E-Plus angekommen. Ich hatte eine Kopie meiner Rechnungen angefordert, die kam etwas verspätet, aber immerhin macht man sich Sorgen um meine Sicherheit. Ich zitiere:<br />
+<blockquote>Im Anhang finden Sie wie gewünscht Ihre Rechnungskopie. Damit nur Sie als berechtigter Empfänger das PDF-Dokument lesen können, ist es verschlüsselt. Zum Öffnen klicken Sie bitte doppelt auf den Dateianhang und geben Sie als Passwort Ihren PUK 1 ein. </p></blockquote>
+<p>Was auf den ersten Blick nützlich erscheint, entpuppt sich jedoch als Falle. Die PUK ist, wie jeder weiß, eine achtstellige Zahlenkombination. Ein Brute-Force-Angriff auf das Dokument ist recht einfach mit dem Tool <tt>pdfcrack</tt> möglich. Das schafft auf meinem Laptop 38.000 Kombinationen pro Sekunde. Rein rechnerisch dauert es also 45 Minuten, bis ich das Dokument geöffnet habe. Und dann habe ich praktischerweise auch gleich meine PUK rausgefunden, die ich noch nicht freigerubbelt habe. Aber das kann nicht nur ich, sondern auch jeder Angreifer, der das PDF-Dokument in die Finger bekommt. Das ist jeder, der meine Mails lesen kann.</p>
+<h3>Ein Angriffszenario</h3>
+<p>Mal angenommen, ich verliere mein Handy. Und jemand findet das. Kein Problem, das Handy ist durch eine PIN geschützt. Die darf dreimal falsch eingegeben werden. Wenn die Eingabe fehlschlägt, kann nach Eingabe der PUK (10 Versuche) eine neue PIN gesetzt werden. Ein eventueller Finder kann also nicht auf meine Kosten telefonieren. Wenn ich jetzt jedoch meine Mails mit meinem Handy abrufe, werden die auf der SD-Karte gespeichert. Die kann der Finder lesen. Und die PUK ergibt sich aus der Rechnung. E-Plus hat hier also effektiv den eigenen Schutz ausgehebelt.</p>
+<p>Eine Stellungnahme von E-Plus steht noch aus.<br />
+<h3>Die Logs</h3>
+<p> Das Knacken dauerte übrigens gerade einmal 20 Minuten.  <code>
+<pre><br />[iblue@silence ~]$ pdfcrack -c 0123456789 -m 8 -n 8 -f ~/Downloads/0177XXXXXXX.pdf <br />PDF version 1.4<br />Security Handler: Standard<br />V: 2<br />R: 3<br />P: -236<br />Length: 128<br />Encrypted Metadata: True<br />FileID: ********************************<br />U: ****************************************************************<br />O: ****************************************************************<br />Average Speed: 38855.4 w/s. Current Word: '80177700'<br />Average Speed: 39002.3 w/s. Current Word: '55175510'<br />[...]<br />Average Speed: 38782.4 w/s. Current Word: '92822154'<br />Average Speed: 38822.8 w/s. Current Word: '68299854'<br />found user-password: '********'<br /></pre>
+<p></code></p>

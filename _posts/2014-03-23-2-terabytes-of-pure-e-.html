@@ -1,0 +1,27 @@
+---
+layout: post
+title: 2 Terabytes of pure e.
+date: 2014-03-23 10:32:37.000000000 +01:00
+categories:
+- Diverses
+tags: []
+status: draft
+type: post
+published: false
+meta:
+  blogger_blog: blog.iblue-consulting.de
+  blogger_author: Markus Fenske
+  blogger_internal: "/feeds/470787080942720564/posts/default/3352629558163364900"
+author:
+  login: iblue
+  email: iblue@gmx.net
+  display_name: iblue
+  first_name: ''
+  last_name: ''
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>Die Zahl <i>e</i> ist die Basis des natürlichen Logarithmus. Eine Zahl, die in der Mathematik mindestens genauso wichtig ist wie die Kreiszahl Pi. Genau wie Pi ist sie irrational, das bedeutet, sie hat unendlich viele Stellen. Der Weltrekord der Berechnung liegt bei einer Billion Nachkommastellen. Wenn man die auf eine Festplatte als Textdatei sind das 931 Gigabyte. Der Weltrekord steht seit 2010. Und genau das wollen wir nun toppen!</p>
+<p>Die Berechnung ist relativ aufwendig. Man muss auf verschiedene mathematische Tricks zurückgreifen, um mit Zahlen in dieser Größenordnung zu hantieren. Die Zahlen passen nicht in den Arbeitsspeicher, die normale Multiplikation ist viel zu langsam, insgesamt gibt es einen Haufen Optimierungsprobleme. Auf StackOverflow <a href="http://stackoverflow.com/questions/13313933/what-is-the-fastest-way-to-calculate-e-to-2-trillion-digits">finden sich eine nette Implementierungsdetails</a>. Insgesamt hatten wir den Bedarf an Zwischnspeicher für die Berechnung auf etwa 8-9 Terabyte geschätzt. Das Ergebnis braucht nochmals 2 Terabyte und die Umrechnungen vom Hexadezimalen Zahlensystem in Dezimalzahlen braucht auch noch etwas Zwischenspeicher.</p>
+<p>Nach diesen Überschlagsrechnungen haben wir, teils aus vorhandener Hardware, teils aus neu gekaufter einen Computer zusammengebaut. 26 Terabye Plattenplatz, verteilt auf 10 Festplatten. Damit uns eventuelle Ausfälle von Festplatten keinen Strich durch die Rechnung machen, ist ein Teil per RAID5 und ein anderer mit RAID10 abgesichert. Die Festplatten können wir im laufenden Betrieb austauschen. Außerdem haben wir 32 Gigabyte RAM und eine 8-Kern FX-8150 CPU. Überschlägen zufolge sollte die Berechnung nicht mehr als einen Monat dauern.</p>
+<p>Nach diversen Rückschlägen mit inkompatiblen Festplattencontrollern läuft der Hardware nun endlich, auch die Software scheint stabil zu laufen. Timo und ich freuen uns nun also darauf, hoffentlich in diesem Jahr noch den Weltrekord zu knacken. 2 Billionen Stellen pures <i>e</i>!</p>

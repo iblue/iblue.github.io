@@ -1,0 +1,28 @@
+---
+layout: post
+title: Facebook-Hacking und das Jobangebot.
+date: 2012-05-04 17:33:00.000000000 +02:00
+categories:
+- Diverses
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _encloseme: '1'
+  blogger_blog: blog.iblue-consulting.de
+  blogger_author: Markus Fenske
+  blogger_permalink: "/2012/05/facebook-hacking-und-das-jobangebot.html"
+  blogger_internal: "/feeds/470787080942720564/posts/default/7534900722217540453"
+author:
+  login: iblue
+  email: iblue@gmx.net
+  display_name: iblue
+  first_name: ''
+  last_name: ''
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>In meinem letzten Post habe ich ja PHP gebasht. Zu Recht. Denn es gibt mal wieder eine winzige Sicherheitslücke in PHP. Ok. Ich untertreibe. Es ist ein Loch. Ein Krater. Es untergräbt jegliche Sicherheit.   Wenn man PHP als CGI laufen lässt (und drauf kommen tatsächlich einige Schwachköpfe, wie Sony), werden Befehle von der URL an die Commandline übergeben. Dort gibt es zum Beispiel den Parameter <tt>-s</tt> der dafür sorgt, dass der Quellcode nicht ausgeführt wird, sondern hübsch farbig dargestellt ausgegeben wird. Das ist der gängige Test für den Bug. Auch wenn Facebook eine ganz andere Architektur einsetzt, werkelt im Hintergrund doch PHP. Ein Test liefert folgenden Code:  <code>
+<pre><br />&lt;?php<br /><br />include_once 'https://www.facebook.com/careers/department?dept=engineering&req=a2KA0000000Lt8LMAS';<br /></pre>
+<p></code> Was nichts anderes wäre, als ein Jobangebot. Nett.</p>

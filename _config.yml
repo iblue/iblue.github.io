@@ -1,0 +1,12 @@
+# Site settings
+title: iblue
+email: iblue@gmx.net
+description: > # this means to ignore newlines until "baseurl:"
+  Mein seltenst gepflegtes privates Blog.
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://iblue.berlin" # the base hostname & protocol for your site
+#twitter_username: jekyllrb
+github_username:  iblue
+
+# Build settings
+markdown: kramdown
